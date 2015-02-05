@@ -224,6 +224,17 @@ dstat_parse()
 print_usage()
 {
 	echo "Usage: $0 [options] command [logfile [duration]]"
+	echo
+	echo "Commands:"
+	echo "$0 start logfile.txt [duration]   Start monitor"
+	echo "$0 status                         Verify monitor status"
+	echo "$0 stop                           Stop monitor"
+	echo "$0 parse logfile.txt              Convert log file to a R-friendly format"
+	echo
+	echo "Options:"
+	echo " -i, --interval INTERVAL Specify monitoring interval in seconds (default: 1)"
+	echo " -v, --verbose           Make the operation more talkative"
+	echo " -h, --help              Print this help message"
 	exit 0
 }
 
