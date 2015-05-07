@@ -197,15 +197,15 @@ dstat_parse()
 	    let n=n+2
 	done
 
-	if [ $HAS_CPUFREQ -eq 1 ]
-	then
-		# frequency
-		for i in `echo $cpu_list | sed 's/total,//g' | tr ',' ' '`
-		do
-		    line="$line,freq_${metrics[n]}"
-		    let n++
-		done
-	fi
+#	if [ $HAS_CPUFREQ -eq 1 ]
+#	then
+#		# frequency
+#		for i in `echo $cpu_list | sed 's/total,//g' | tr ',' ' '`
+#		do
+#		    line="$line,freq_${metrics[n]}"
+#		    let n++
+#		done
+#	fi
 
 	if [ $HAS_CPUTEMP -eq 1 ]
 	then
