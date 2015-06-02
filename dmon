@@ -44,8 +44,8 @@ dstat_run()
 	duration=$3
 
 	pids=`ps axuf | grep python | grep dstat | awk '{print $2}'`
-    if [ -n "$pids" ]
-    then
+	if [ -n "$pids" ]
+	then
 		echo >&2 "Monitor is already running ($pids) ..."
 		exit
 	fi
@@ -82,15 +82,19 @@ dstat_run()
 	fi
 
 	rm -f $output
-	cmd="$dstat --epoch --mem --swap --sys --page --cpu -C $cpu_list --net -N $iface_list --disk --io -D $disk_list --nocolor --output $output $interval $count"
+	cmd="$dstat --epoch --mem --swap --sys --page --cpu -C $cpu_list --net -N $iface_list --disk --io -D $disk_list --nocolor"
+
 	if [ $HAS_CPUTEMP -eq 1 ]
 	then
 		cmd=$cmd" --cputemp"
 	fi
-    if [ $HAS_CPUFREQ -eq 1 ]
-    then
-        cmd=$cmd" --cpufreq"
-    fi
+
+	if [ $HAS_CPUFREQ -eq 1 ]
+	then
+		cmd=$cmd" --cpufreq"
+	fi
+
+	cmd=$cmd" --output $output $interval $count"
 
 	echo $cmd
 	($cmd &)
@@ -108,12 +112,12 @@ dstat_stop()
 dstat_status()
 {
 	pids=`ps axuf | grep python | grep dstat | awk '{print $2}'`
-    if [ -n "$pids" ]
-    then
-        echo "Monitor is running ($pids) ..."
+	if [ -n "$pids" ]
+	then
+		echo "Monitor is running ($pids) ..."
 	else
 		echo "Monitor not running."
-    fi
+	fi
 }
 
 dstat_parse()
@@ -176,25 +180,25 @@ dstat_parse()
 	# network
 	for i in `echo $net_list | tr ',' ' '`
 	do
-	    line="$line,net_$i""_${metrics[n+0]}"
-	    line="$line,net_$i""_${metrics[n+1]}"
-	    let n=n+2
+		line="$line,net_$i""_${metrics[n+0]}"
+		line="$line,net_$i""_${metrics[n+1]}"
+		let n=n+2
 	done
 
 	# disk
 	for i in `echo $disk_list | tr ',' ' '`
 	do
-	    line="$line,disk_$i""_${metrics[n+0]}"
-	    line="$line,disk_$i""_${metrics[n+1]}"
-	    let n=n+2
+		line="$line,disk_$i""_${metrics[n+0]}"
+		line="$line,disk_$i""_${metrics[n+1]}"
+		let n=n+2
 	done
 
 	# I/O
 	for i in `echo $disk_list | tr ',' ' '`
 	do
-	    line="$line,io_$i""_${metrics[n+0]}"
-	    line="$line,io_$i""_${metrics[n+1]}"
-	    let n=n+2
+		line="$line,io_$i""_${metrics[n+0]}"
+		line="$line,io_$i""_${metrics[n+1]}"
+		let n=n+2
 	done
 
 #	if [ $HAS_CPUFREQ -eq 1 ]
@@ -212,8 +216,8 @@ dstat_parse()
 		# temperature
 		for i in `echo $cpu_list | tr ',' ' '`
 		do
-		    line="$line,temp_${metrics[n]}"
-		    let n++
+			line="$line,temp_${metrics[n]}"
+			let n++
 		done
 	fi
 
